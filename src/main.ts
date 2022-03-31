@@ -17,6 +17,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config, { ignoreGlobalPrefix: true });
   SwaggerModule.setup('/api/docs', app, document);
   
-  await app.listen(3001, () => console.log('hfshle'));
+  await app.listen(3000);
 }
 bootstrap();

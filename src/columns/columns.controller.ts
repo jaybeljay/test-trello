@@ -1,15 +1,16 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ColumnsService } from './columns.service';
 import { CreateorUpdateColumnDto, GetResponseColumnDto } from './columns.dto';
 
+@ApiBearerAuth()
 @ApiTags('Columns')
 @Controller('columns')
+@UseGuards(JwtAuthGuard)
 export class ColumnsController {
     constructor(private columnsService: ColumnsService) {}
 
-    @UseGuards(JwtAuthGuard)
     @ApiOperation({summary: 'Create a new column'})
     @ApiResponse({status: 200, type: CreateorUpdateColumnDto})
     @Post('/')
@@ -17,7 +18,6 @@ export class ColumnsController {
         return this.columnsService.createColumn(columnDto, userId);
     }
 
-    @UseGuards(JwtAuthGuard)
     @ApiOperation({summary: 'Get all columns of the current user'})
     @ApiResponse({status: 200, type: [GetResponseColumnDto]})
     @Get('/')
@@ -25,7 +25,6 @@ export class ColumnsController {
         return this.columnsService.getAllColumns(userId);
     }
 
-    @UseGuards(JwtAuthGuard)
     @ApiOperation({summary: 'Get one column of the current user'})
     @ApiResponse({status: 200, type: GetResponseColumnDto})
     @Get('/:columnId')
@@ -33,7 +32,6 @@ export class ColumnsController {
         return this.columnsService.getOneColumn(userId, columnId);
     }
 
-    @UseGuards(JwtAuthGuard)
     @ApiOperation({summary: 'Update a column'})
     @ApiResponse({status: 200, type: GetResponseColumnDto})
     @Patch('/:columnId')
@@ -41,7 +39,6 @@ export class ColumnsController {
         return this.columnsService.updateColumn(userId, columnId, columnDto);
     }
 
-    @UseGuards(JwtAuthGuard)
     @ApiOperation({summary: 'Delete a column'})
     @ApiResponse({status: 204})
     @Delete('/:columnId')

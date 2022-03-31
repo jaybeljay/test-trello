@@ -39,4 +39,13 @@ export class AuthService {
         }
         throw new UnauthorizedException({message: 'Incorrect email or password'})
     }
+
+    async validateJwtToken(payload) {
+        const user = await this.userService.getOneUser(payload.id);
+        if (!user) {
+          return null;
+        }
+    
+        return user;
+      }
 }

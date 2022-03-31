@@ -3,9 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { debug } from 'console';
 import { AuthModule } from './auth/auth.module';
+import { JWTConfigService } from './auth/jwt-config.service';
 import { Card } from './cards/cards.entity';
 import { CardsModule } from './cards/cards.module';
 import { Column } from './columns/columns.entity';
@@ -18,7 +20,8 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env'
+      envFilePath: '.env',
+      isGlobal: true
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -31,53 +34,15 @@ import { UsersModule } from './users/users.module';
       autoLoadEntities: true,
       logging: true
     }),
-    RouterModule.register([
-      {
-        path: 'users',
-        module: UsersModule,
-        children: [
-          {
-            path: '/:userId',
-            module: UsersModule,
-            children: [
-              {
-                path: '/columns',
-                module: ColumnsModule,
-                children: [
-                  {
-                    path: '/:columnId',
-                    module: ColumnsModule,
-                    children: [
-                      {
-                        path: '/cards',
-                        module: CardsModule,
-                        children: [
-                        {
-                          path: '/:cardId',
-                          module: CardsModule,
-                          children: [
-                            {
-                              path: '/comments',
-                              module: CommentsModule
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-          } 
-        ]
-      }
-    ]),
+    JwtModule.registerAsync({
+      useClass: JWTConfigService
+    }),
     UsersModule,
     AuthModule,
     ColumnsModule,
     CardsModule,
-    CommentsModule
+    CommentsModule,
+    PassportModule
   ],
   controllers: [],
   providers: [],
