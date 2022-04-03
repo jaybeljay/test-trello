@@ -7,6 +7,7 @@ import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('users');
 
   const config = new DocumentBuilder()
     .setTitle('Trello RESTful API')
@@ -14,7 +15,7 @@ async function bootstrap() {
     .setVersion('1.0.0')
     .addTag('trello')
     .build();
-  const document = SwaggerModule.createDocument(app, config, { ignoreGlobalPrefix: true });
+  const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/api/docs', app, document);
   
   await app.listen(3000);

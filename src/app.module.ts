@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from '@nestjs/config';
-import { RouterModule } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { debug } from 'console';
 import { AuthModule } from './auth/auth.module';
 import { JWTConfigService } from './auth/jwt-config.service';
 import { Card } from './cards/cards.entity';
@@ -32,7 +30,8 @@ import { UsersModule } from './users/users.module';
       database: process.env.POSTGRES_DB,
       entities: [User, Column, Card, Comment],
       autoLoadEntities: true,
-      logging: true
+      logging: true,
+      synchronize: true
     }),
     JwtModule.registerAsync({
       useClass: JWTConfigService

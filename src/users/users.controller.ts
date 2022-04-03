@@ -5,43 +5,43 @@ import { User } from './users.entity';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
-@Controller('users')
+@Controller()
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
     @ApiOperation({summary: 'Create a new user'})
     @ApiResponse({status: 201, type: User})
-    @Post()
+    @Post('/')
     create(@Body() userDto: CreateUserDto) {
         return this.usersService.createUser(userDto);
     }
 
     @ApiOperation({summary: 'Get all users'})
     @ApiResponse({status: 200, type: [User]})
-    @Get()
+    @Get('/')
     getAll() {
         return this.usersService.getAllUsers();
     }
 
     @ApiOperation({summary: 'Get one user by id'})
     @ApiResponse({status: 200, type: User})
-    @Get('/:id')
-    getOne(@Param('id') id: string) {
-        return this.usersService.getOneUser(id);
+    @Get('/:userId')
+    getOne(@Param('userId') userId: string) {
+        return this.usersService.getOneUser(userId);
     }
 
     @ApiOperation({summary: 'Update a user'})
     @ApiResponse({status: 200, type: User})
-    @Patch('/:id')
-    update(@Param('id') id: string, @Body() userDto: CreateUserDto) {
-        return this.usersService.updateUser(id, userDto);
+    @Patch('/:userId')
+    update(@Param('userId') userId: string, @Body() userDto: CreateUserDto) {
+        return this.usersService.updateUser(userId, userDto);
     }
 
     @ApiOperation({summary: 'Delete a user'})
     @ApiResponse({status: 204})
-    @Delete('/:id')
+    @Delete('/:userId')
     @HttpCode(204)
-    remove(@Param('id') id: string) {
-        return this.usersService.removeUser(id);
+    remove(@Param('userId') userId: string) {
+        return this.usersService.removeUser(userId);
     }
 }
