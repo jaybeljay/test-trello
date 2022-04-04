@@ -27,14 +27,14 @@ export class CardsController {
     @ApiOperation({summary: 'Get one card of the column'})
     @ApiResponse({status: 200, type: GetResponseCardDto})
     @Get('/:userId/columns/:columnId/cards/:cardId')
-    getOne(@Param('userId') userId: string, @Param('id') cardId: string) {
+    getOne(@Param('userId') userId: string, @Param('cardId') cardId: string) {
         return this.cardsService.getOneCard(cardId, userId);
     }
 
     @ApiOperation({summary: 'Update a card'})
     @ApiResponse({status: 200, type: GetResponseCardDto})
     @Patch('/:userId/columns/:columnId/cards/:cardId')
-    update(@Param('user_id') userId: string, @Param('cardId') cardId: string, @Body() columnDto: CreateorUpdateCardDto) {
+    update(@Param('userId') userId: string, @Param('cardId') cardId: string, @Body() columnDto: CreateorUpdateCardDto) {
         return this.cardsService.updateCard(cardId, userId, columnDto);
     }
 

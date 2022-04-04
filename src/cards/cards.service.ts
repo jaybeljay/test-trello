@@ -13,7 +13,8 @@ export class CardsService {
     async createCard(dto: CreateorUpdateCardDto, userId: string): Promise<GetResponseCardDto> {
         try {
             const card = this.cardRepository.create({...dto, userId});
-            return new GetResponseCardDto({...card});
+            const savedCard = await this.cardRepository.save(card);
+            return new GetResponseCardDto({...savedCard});
         } catch(e) {
             throw new UnprocessableEntityException(e.message);
         }
@@ -22,7 +23,7 @@ export class CardsService {
     async getAllCards(columnId: string, userId: string): Promise<GetResponseCardDto[]> {
         try {
             const cards = await this.cardRepository.createQueryBuilder('cards')
-            .where('cards.userId == userId')
+            .where('cards.userId = :userId', {  userId })
             .getMany();
             return  cards.map((card: Card) => new GetResponseCardDto({...card}));
         } catch(e) {
@@ -32,8 +33,9 @@ export class CardsService {
 
     async getOneCard(id: string, userId: string): Promise<GetResponseCardDto> {
         try {
-            const card = await this.cardRepository.findOne(id, {
+            const card = await this.cardRepository.findOne({
                 where: {
+                    'id': id,
                     'userId': userId
                 }
             });
@@ -45,13 +47,14 @@ export class CardsService {
 
     async updateCard(id: string, userId: string, dto: CreateorUpdateCardDto): Promise<GetResponseCardDto> {
         try {
-            const card = await this.cardRepository.findOne(id, {
+            const card = await this.cardRepository.findOne({
                 where: {
+                    'id': id,
                     'userId': userId
                 }
             });
-            await this.cardRepository.save({...dto, id: id, userId: userId});
-            return new GetResponseCardDto({...card});
+            const updatedCard = await this.cardRepository.save({...dto, id: id, userId: userId});
+            return new GetResponseCardDto({...updatedCard});
         } catch(e) {
             throw new BadRequestException(e.message);
         }

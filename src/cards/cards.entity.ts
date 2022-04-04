@@ -42,7 +42,7 @@ export class Card {
   userId: string;
 
   @ManyToOne(() => Column, (column) => column.cards, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'columnId' })
+  @JoinColumn({ name: 'columnId', referencedColumnName: 'id' })
   column: Column;
 
   @Col('uuid')

@@ -1,9 +1,7 @@
 import { 
   Column as Col, 
   Entity, OneToMany, 
-  PrimaryGeneratedColumn, 
-  BeforeInsert, 
-  BeforeUpdate, 
+  PrimaryGeneratedColumn,
   CreateDateColumn, 
   UpdateDateColumn } from "typeorm";
 import { ApiProperty } from '@nestjs/swagger';
@@ -25,18 +23,6 @@ export class User {
   @ApiProperty({example: '1234567890'})
   @Col({nullable: false})
   password: string;
-
-  @BeforeInsert()
-  hashPasswordBeforeInsert() {
-    this.password = crypto.createHmac('sha256', this.password).digest('hex');
-  }
-
-  @BeforeUpdate()
-  hashPasswordBeforeUpdate() {
-    if (this.password) {
-      this.password = crypto.createHmac('sha256', this.password).digest('hex');
-    }
-  }
 
   @OneToMany(() => Column, column => column.user, { onDelete: 'CASCADE' })
   columns: Column[];

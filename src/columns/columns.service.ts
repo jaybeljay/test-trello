@@ -13,7 +13,8 @@ export class ColumnsService {
     async createColumn(dto: CreateorUpdateColumnDto, userId: string): Promise<GetResponseColumnDto> {
         try {
             const col = this.columnRepository.create({...dto, userId});
-            return new GetResponseColumnDto({...col});
+            const savedCol = await this.columnRepository.save(col);
+            return new GetResponseColumnDto({...savedCol});
         } catch(e) {
             throw new UnprocessableEntityException(e.message);
         }
@@ -22,7 +23,7 @@ export class ColumnsService {
     async getAllColumns(userId: string): Promise<GetResponseColumnDto[]> {
         try {
             const cols = await this.columnRepository.createQueryBuilder('columns')
-            .where('columns.user == userId')
+            .where('columns.userId = :userId', { userId })
             .orderBy('columns.createdAt', 'DESC')
             .getMany();
             return await cols.map((col: Column) => new GetResponseColumnDto({ ...col }));
@@ -51,8 +52,8 @@ export class ColumnsService {
                     'userId': userId
                 }
             });
-            await this.columnRepository.save({...dto, id: id, userId: userId});
-            return new GetResponseColumnDto({...col});
+            const updatedCol = await this.columnRepository.save({...dto, id: id, userId: userId});
+            return new GetResponseColumnDto({...updatedCol});
         } catch(e) {
             throw new BadRequestException(e.message);
         }

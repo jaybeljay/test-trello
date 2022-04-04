@@ -38,7 +38,7 @@ export class GetResponseCommentDto {
 
     constructor(data: GetResponseCommentDto) {
         this.id = data.id;
-        this.text = data.userId;
+        this.text = data.text;
         this.cardId = data.cardId;
         this.userId = data.userId;
         this.createdAt = data.createdAt;

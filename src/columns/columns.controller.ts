@@ -12,7 +12,7 @@ export class ColumnsController {
     constructor(private columnsService: ColumnsService) {}
 
     @ApiOperation({summary: 'Create a new column'})
-    @ApiResponse({status: 200, type: CreateorUpdateColumnDto})
+    @ApiResponse({status: 201, type: CreateorUpdateColumnDto})
     @Post('/:userId/columns/')
     create(@Param('userId') userId: string, @Body() columnDto: CreateorUpdateColumnDto) {
         return this.columnsService.createColumn(columnDto, userId);
@@ -29,14 +29,14 @@ export class ColumnsController {
     @ApiResponse({status: 200, type: GetResponseColumnDto})
     @Get('/:userId/columns/:columnId')
     getOne(@Param('userId') userId: string, @Param('columnId') columnId: string) {
-        return this.columnsService.getOneColumn(userId, columnId);
+        return this.columnsService.getOneColumn(columnId, userId);
     }
 
     @ApiOperation({summary: 'Update a column'})
     @ApiResponse({status: 200, type: GetResponseColumnDto})
     @Patch('/:userId/columns/:columnId')
     update(@Param('userId') userId: string, @Param('columnId') columnId: string, @Body() columnDto: CreateorUpdateColumnDto) {
-        return this.columnsService.updateColumn(userId, columnId, columnDto);
+        return this.columnsService.updateColumn(columnId, userId, columnDto);
     }
 
     @ApiOperation({summary: 'Delete a column'})
@@ -44,6 +44,6 @@ export class ColumnsController {
     @Delete('/:userId/columns/:columnId')
     @HttpCode(204)
     remove(@Param('userId') userId: string, @Param('columnId') columnId: string) {
-        return this.columnsService.deleteColumn(userId, columnId);
+        return this.columnsService.deleteColumn(columnId, userId);
     }
 }

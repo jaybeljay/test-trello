@@ -29,10 +29,10 @@ export class Column {
   updatedAt: Date;
 
   @ManyToOne(() => User, user => user.columns, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'id' })
+  @JoinColumn({ name: 'userId'})
   user: User;
 
-  @Col()
+  @Col('uuid')
   userId: string;
 
   @OneToMany(() => Card, card => card.column, { onDelete: 'CASCADE' })

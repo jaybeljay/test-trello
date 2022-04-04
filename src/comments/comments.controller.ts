@@ -13,7 +13,7 @@ export class CommentsController {
     @ApiOperation({summary: 'Create a new comment'})
     @ApiResponse({status: 200, type: GetResponseCommentDto})
     @Post('/:userId/columns/:columnId/cards/:cardId/comments')
-    create(@Param('userId') userId: string, @Body() commentDto: GetResponseCommentDto) {
+    create(@Param('userId') userId: string, @Body() commentDto: CreateorUpdateCommentDto) {
         return this.commentsService.createComment(commentDto, userId);
     }
 
