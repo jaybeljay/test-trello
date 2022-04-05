@@ -3,10 +3,11 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CommentsService } from './comments.service';
 import { CreateorUpdateCommentDto, GetResponseCommentDto } from './comments.dto';
+import { CommentCRUDGuard } from './comments-crud.guard';
 
 @ApiTags('Comments')
 @Controller()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, CommentCRUDGuard)
 export class CommentsController {
     constructor(private commentsService: CommentsService) {}
 

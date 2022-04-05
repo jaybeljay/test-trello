@@ -3,10 +3,11 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CardsService } from './cards.service';
 import { CreateorUpdateCardDto, GetResponseCardDto } from './cards.dto';
+import { CardCRUDGuard } from 'src/cards/cards-crud.guard';
 
 @ApiTags('Cards')
 @Controller()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, CardCRUDGuard)
 export class CardsController {
     constructor(private cardsService: CardsService) {}
 

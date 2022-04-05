@@ -3,11 +3,12 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ColumnsService } from './columns.service';
 import { CreateorUpdateColumnDto, GetResponseColumnDto } from './columns.dto';
+import { ColumnCRUDGuard } from './columns-crud.guard';
 
 @ApiBearerAuth()
 @ApiTags('Columns')
 @Controller()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, ColumnCRUDGuard)
 export class ColumnsController {
     constructor(private columnsService: ColumnsService) {}
 
