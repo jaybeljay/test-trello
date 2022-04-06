@@ -6,9 +6,7 @@ import { CreateorUpdateColumnDto, GetResponseColumnDto } from "./columns.dto";
 
 @Injectable()
 export class ColumnsService {
-    constructor(@InjectRepository(Column) 
-                private columnRepository: Repository<Column>
-                ) {}
+    constructor(@InjectRepository(Column) private columnRepository: Repository<Column>) {}
 
     async createColumn(dto: CreateorUpdateColumnDto, userId: string): Promise<GetResponseColumnDto> {
         try {

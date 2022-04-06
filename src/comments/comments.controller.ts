@@ -12,7 +12,7 @@ export class CommentsController {
     constructor(private commentsService: CommentsService) {}
 
     @ApiOperation({summary: 'Create a new comment'})
-    @ApiResponse({status: 200, type: GetResponseCommentDto})
+    @ApiResponse({status: 201, type: GetResponseCommentDto})
     @Post('/:userId/columns/:columnId/cards/:cardId/comments')
     create(@Param('userId') userId: string, @Body() commentDto: CreateorUpdateCommentDto) {
         return this.commentsService.createComment(commentDto, userId);
