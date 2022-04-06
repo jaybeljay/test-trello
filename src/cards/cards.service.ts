@@ -6,9 +6,7 @@ import { CreateorUpdateCardDto, GetResponseCardDto } from "./cards.dto";
 
 @Injectable()
 export class CardsService {
-    constructor(@InjectRepository(Card) 
-                private cardRepository: Repository<Card>
-                ) {}
+    constructor(@InjectRepository(Card) private cardRepository: Repository<Card>) {}
 
     async createCard(dto: CreateorUpdateCardDto, userId: string): Promise<GetResponseCardDto> {
         try {

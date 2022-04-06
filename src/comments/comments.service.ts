@@ -6,9 +6,7 @@ import { CreateorUpdateCommentDto, GetResponseCommentDto } from "./comments.dto"
 
 @Injectable()
 export class CommentsService {
-    constructor(@InjectRepository(Comment) 
-                private commentRepository: Repository<Comment>
-                ) {}
+    constructor(@InjectRepository(Comment) private commentRepository: Repository<Comment>) {}
 
     async createComment(dto: CreateorUpdateCommentDto, userId: string): Promise<GetResponseCommentDto> {
         try {
