@@ -32,6 +32,10 @@
 $ npm install
 ```
 
+## Environment variables
+
+Declare the following variables in .env file: POSTGRES_PORT, POSTGRES_HOST, POSTGRES_USER, POSTGRES_DB, POSTGRES_PASSWORD, SECRET_KEY.
+
 ## Running the app
 
 ```bash
